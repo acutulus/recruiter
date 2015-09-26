@@ -1,0 +1,70 @@
+<div class="body-content clearfix" data-ng-controller="RegisterController">
+
+        <div class="block-section bg-color4">
+          <div class="container">
+            <div class="panel panel-md">
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-12" ng-show="!user">
+                    <!-- form login -->
+                    <form name="registerForm" data-ng-submit="register()">                
+                      <div class="form-group">
+                        <label>First name</label>
+                        <input type="text" class="form-control" required ng-model="newUser.firstName" required placeholder="first name">
+                      </div>
+                      <div class="form-group">
+                        <label>Last name</label>
+                        <input type="text" class="form-control" required ng-model="newUser.lastName" required placeholder="last name">
+                      </div>
+                      <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" ng-model="newUser.email" required placeholder="Your Email">
+                      </div>
+                      <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" ng-model="newUser.password" required placeholder="Your Password">
+                      </div>
+                      <div class="form-group">
+                        <label>Re-type Password</label>
+                        <input type="password" class="form-control" ng-model="rePassword" required placeholder="Re-type Your Password">
+                      </div>
+                                          <!--Error/success messages -->
+                    <div class="alert alert-warning alert-dismissible fade in" ng-show="msgs.passwordsDontMatch">
+                      Passwords dont match baby.
+                    </div>
+                    <div class="alert alert-warning alert-dismissible fade in" ng-show="msgs.passwordShort">
+                      Password needs to be 7 or more characters.
+                    </div>
+                    <div class="alert alert-warning alert-dismissible fade in" ng-show="msgs.formError">
+                      Error in the form.
+                    </div>
+                    <div class="alert alert-success alert-dismissible fade in" ng-show="msgs.created">
+                      You are registered!
+                    </div>
+                    <div class="alert alert-success alert-dismissible fade in" ng-show="msgs.emailUsed">
+                      Email has already been used to create an account
+                    </div>
+                    <div class="alert alert-success alert-dismissible fade in" ng-show="msgs.success">
+                      Your organisation has been created! 
+                    </div>
+
+                      <div class="white-space-10"></div>
+                      <div class="form-group no-margin">
+                        <button type="submit" class="btn btn-theme btn-lg btn-t-primary btn-block">Register</button>
+                      </div>
+                    </form><!-- form login -->
+
+                  </div>
+                  <div class="col-md-12" ng-show="user">
+                    <p>Looks like your already signed in as {{user.username}}.<a href="/auth/signout">sign out?</a></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="white-space-20"></div>
+            <div class="text-center color-white">By creating an account, you agree to buttPlanet. <br/><a href="#" class="link-white"><strong>Terms of Service</strong></a> and consent to our <a href="#" class="link-white"><strong>Privacy Policy</strong></a>.</div>
+          </div>
+        </div>
+
+</div><!--end body-content -->

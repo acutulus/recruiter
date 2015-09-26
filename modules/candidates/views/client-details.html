@@ -1,0 +1,120 @@
+<section class="container" style="margin-top:20px;" data-ng-controller="ClientDetailsCtrl">
+	<div style="text-align:center"><h2>{{client.name}}</h2></div>
+	<div class="row" style="margin-bottom:10px;">
+		<div class="col-xs-10 col-xs-offset-2" class="btn-group" role="group" >
+
+			<button style="margin-left:25px;" class="btn btn-default" ng-click="newUserModal()" ng-mouseover="newUserInfo = true" ng-mouseleave="newUserInfo = false">
+				<span class="glyphicon glyphicon-user" style="color:orange;"></span>            &nbsp Invite User
+			</button>
+			<div style="position:absolute;z-index:100;min-width:200px;padding:20px;" class="panel panel-default" ng-show="newUserInfo">
+				Send an invite to a new user.<br> They will have permission to view this client's jobs.
+			</div>
+
+			<a href="#!/app/add/job/{{client._id}}">
+				<button class="btn btn-default" ng-mouseover="newJobInfo = true" ng-mouseleave="newJobInfo = false">
+					<span class="glyphicon glyphicon-plus" style="color:green;"></span>
+					&nbsp Add Job
+				</button>
+			</a>
+			<div style="position:absolute;z-index:100;min-width:200px;padding:20px;margin-left:10%;" class="panel panel-default" ng-show="newJobInfo">
+				Create a new Job for this client.
+			</div>
+
+			<button class="btn btn-default" ng-click="editClientData()" ng-mouseover="editInfo = true" ng-mouseleave="editInfo = false">
+				<span class="glyphicon glyphicon-pencil" style="color:#6600FF"></span> Edit Client Data
+			</button>
+			<div style="position:absolute;z-index:100;min-width:200px;padding:20px;margin-left:20%;" class="panel panel-default" ng-show="editInfo">
+				Edit this clients information.
+			</div>
+
+			<button  class="btn btn-default" ng-show="client.serviceUsed === 'workable'" ng-click="refreshJobs()" ng-mouseover="refreshInfo = true" ng-mouseleave="refreshInfo = false">
+				<span class="glyphicon glyphicon-repeat" style="color:blue;"></span> &nbsp Refresh Client Jobs
+			</button>
+			<div style="position:absolute;z-index:100;min-width:200px;padding:20px;margin-left:30%" class="panel panel-default" ng-show="refreshInfo">
+				Compare this candidate list to workable one.<br> Add any new candidates to our system.
+			</div>
+
+			<div class="btn btn-default" style="display:inline-block; position:relative;" ng-show="client.serviceUsed === 'applicantPro'" ng-mouseover="csvInfo = !csvInfo" ng-mouseleave="csvInfo = !csvInfo">
+				<span class="glyphicon glyphicon-list-alt" style="color:blue"></span> Post CSV file
+				<input style="position: absolute; top: 0px; width: 107px; left: 0px; height: 35px; opacity: 0;" id='csvfile' type="file" onchange="angular.element(this).scope().postCSVFile()"></input>
+			</div>
+			<div style="position:absolute;z-index:99;max-width:200px;padding:20px;margin-left:40%" class="panel panel-default" ng-show="csvInfo">
+				Upload a csv from applicantPro into our system.
+			</div>
+			<div ng-show="csvResponseText" style="position:absolute;z-index:100;max-width:300px;padding:20px;margin-left:40%;" class="panel panel-default">
+				<span ng-show="csvResponseText.length > 20" style="color:green">Success!</span>
+				<a href=""><span class="glyphicon glyphicon-remove" style="color:red;margin-left:150px;" ng-click="csvResponseText=false;"></span></a><br>
+				{{csvResponseText}}
+			</div>
+			<div class="btn btn-default" style="display:inline-block; position:relative" ng-click="removeClientCheck = !removeClientCheck;" ng-mouseover="removeClientInfo = true" ng-mouseleave="removeClientInfo = false">
+				<span class="glyphicon glyphicon-remove" style="color:red"></span> Remove Client 
+			</div>
+			<div style="position:absolute;z-index:100;min-width:200px;padding:20px;margin-left:50%" class="panel panel-default" ng-show="removeClientInfo && !removeClientCheck">
+				Delete this client, associated jobs and candidates.
+			</div>
+			<div style="position:absolute;z-index:100;min-width:250px;padding:20px;margin-left:50%" class="panel panel-default" ng-show="removeClientCheck">
+				This will permanently remove {{client.name}}.<br> Are you sure you want to do this?<br>
+				<span style="color:red;font-size:12px;">Type 'yes' to confirm.<span ng-show="removeClientTextWrong">Does not say yes</span></span><br>
+				<input type="text" ng-model="removeClientConfirmText" ng-click="removeClientTextWrong = false;" style="margin-bottom:10px;"></input><br>
+				<button class="btn btn-md btn-warning" ng-click="removeClient()">Delete It</button>
+				<button class="btn btn-md btn-danger" ng-click="removeClientCheck = false;">Go back</button>
+			</div>
+			<div style="position:absolute;z-index:100;min-width:200px;padding:20px;margin-left:50%" class="alert alert-warning" ng-show="removeClientCompleted">
+				{{removeClientReturnData}}
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="col-xs-8 col-xs-offset-2">
+			<h4>Client Jobs:</h4>
+			<ul class="list-group">
+				<li class="list-group-item" ng-repeat="job in jobs track by $index">
+					<a href="#!/app/clients/{{client._id}}/jobs/{{job._id}}" 
+					 ng-click="selectJob(job)">
+						{{(job.title === '') ? job.full_title : job.title}}
+					</a>
+					<div class="pull-right">
+						<div class="dropdown">
+							<a href="" class="dropdown-toggle" type="button" data-toggle="dropdown"><span class="glyphicon glyphicon-cog" ></span></a>
+
+							<ul class="dropdown-menu">
+								<li><a href="#!/app/modify/job/{{job._id}}">Modify Properties</a></li>
+								<li><a href="" ng-click="job.showDelete = true;">Delete</a></li>
+							</ul>
+						</div>
+						<div style="position:absolute;z-index:100;min-width:200px;padding:20px;" class="panel panel-default" ng-show="job.showDelete">
+							<p> Are you sure you want to delete this job?</p>
+							<button class="btn btn-md btn-warning" ng-click="deleteJob(job._id, $index)">Yes</button>
+							<button class="btn btn-md btn-danger" ng-click="job.showDelete = false">No</button>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="container">
+		<div class="col-sm-8 col-xs-offset-2">
+			<h4>Current Funnel:</h4>
+			<ul class="list-group">
+				<li class="list-group-item" ng-repeat="stage in arrayFunnel">
+					{{stage}}
+					<a href="" class="pull-right" ng-click="removeItem(stage)">
+						<span class="glyphicon glyphicon-remove" style="color:red"></span>
+					</a>
+				</li>
+				<li class="list-group-item">
+					<div class="input-group">
+						<input type="text" class="form-control" ng-model="newItemName" placeholder="add item...">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" ng-click="addNewItem()">
+								<span class="glyphicon glyphicon-plus" style="color:blue"></span>
+							</button>
+						</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+</section>

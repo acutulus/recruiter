@@ -1,0 +1,61 @@
+
+<section data-ng-controller="CandidateShareCtrl">
+	<div class="container">
+		<style>
+			h4{
+				color:rgba(100,100,100,.9);
+			}
+		</style>
+		<div class="col-xs-8 col-xs-offset-2">
+			<div class="bordered">
+				<h2>{{candidate.name}}</h2>
+				<h4>{{candidate.headline}}</h4>
+				<h4>{{candidate.email}} {{candidate.phone}}</h4>
+				<hr>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<h4>Candidate Summary:</h4>
+						<hr>
+						<p>{{candidate.summary || 'Not Provided'}}
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<h4>Work Experience</h4>
+						<hr>
+						<div ng-repeat="work in candidate.experience_entries">
+							<p><strong>{{work.company}} : ({{work.start_date}} - {{work.end_date || 'current'}})<br>
+								{{work.title}}</strong></p>
+							<p>{{work.summary}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<h4>Education</h4>
+						<hr>
+						<div ng-repeat="school in candidate.education_entries">
+							<p><strong>{{school.school}} : ({{school.start_date}} - {{school.end_date || 'current'}})</strong></p>
+							<p>Field: {{school.field_of_study}}</p>
+							<p>Degree: {{school.degree || 'Not Completed'}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<h4>Skills:</h4>
+					<div ng-repeat="skill in candidate.skills">
+						{{skill.name}}
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<h4>Cover Letter:</h4>
+					<p>{{candidate.cover_letter || 'None Provided'}}</p>
+					<hr>		
+					<h4>Resume:</h4>
+					<a ng-show="candidate.resume_url">{{candidate.resume_url}}</a>
+					<p ng-show="!candidate.resume_url">None Provided</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

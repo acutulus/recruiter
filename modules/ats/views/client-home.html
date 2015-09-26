@@ -1,0 +1,71 @@
+<div data-ng-controller="ClientHomeController">
+
+	<div class="body-content clearfix" >
+        <div class="bg-color2">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-9">
+
+                <!-- box listing -->
+                <div class="block-section-sm box-list-area">
+
+                  <!-- desc top -->
+                  <div class="row hidden-xs">
+                    <div class="col-sm-6  ">
+                      <p><strong class="color-black">Jobs for {{client.name}}</strong></p>
+                    </div>
+                  </div><!-- end desc top -->
+
+                  <!-- item list -->  
+                  <div class="box-list">
+                  	<div class="item" ng-show="jobs.length === 0"style="border:dashed;background-color:rgb(242,242,242);margin-bottom:50px;border-width:2px;">
+                  		<div class="row">
+                  			<div class="col-md-1 hidden-sm hidden-xs"></div>
+                  			<div class="col-md-11">
+                  				<h4 class="no-margin-top">New jobs will be added here</h4>
+                  			</div>
+                  		</div>
+                  	</div>
+                    <div class="item" ng-repeat="job in jobs">
+                      <div class="row">
+                        <div class="col-md-1 hidden-sm hidden-xs"></div>
+                        <div class="col-md-11">
+                          <h3 class="no-margin-top"><a href="management.html#!/client/{{client._id}}/job/{{job._id}}" class="">{{job.title}} <i class="fa fa-link color-white-mute font-1x"></i></a></h3>
+                          <h5><span class="color-black">CollegeHumor</span> - <span class="color-white-mute">New York, NY 10011 (Chelsea area)</span></h5>
+                          <p class="text-truncate ">{{job.description}}</p>
+                          <div>
+                            <span class="color-white-mute">{{job._createdAt}}</span> - 
+                            <a href="#need-login" data-toggle="modal" class="btn btn-xs btn-theme btn-default">save job</a> - 
+                            <a href="#modal-email" data-toggle="modal"  class="btn btn-theme btn-xs btn-default">email</a> - 
+                            <a href="#" class="btn btn-theme btn-xs btn-default">more ...</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div><!-- end item list -->
+                    <div class="item">
+                    	<div class="row">
+                    		<div class="col-md-1 hidden-sm hidden-xs"></div>
+                    		<div class="col-md-11">
+                    			<h3 class="no-margin-top"><a href="/management.html#!/homepage/add-job/{{client._id}}">
+                    				<span class="glyphicon glyphicon-user" style="color:blue;"></span>&nbspAdd a new job</a></h3>
+                    			<p>Publish new jobs here and begin collecting applications from candidates.</p> 
+                    			<a href="/management.html#!/homepage/add-job/{{client._id}}" class="btn btn-xs btn-theme btn-default">Create a Job</a>
+                    		</div>
+                    	</div>
+                    </div>
+                    <div class="item" ng-show="jobs.length === 0"style="border:dashed;background-color:rgb(242,242,242);margin-top:50px;border-width:2px;">
+                  		<div class="row">
+                  			<div class="col-md-1 hidden-sm hidden-xs"></div>
+                  			<div class="col-md-11">
+                  				<h4 class="no-margin-top">Positions that are not accepting more candidates will be down here.</h4>
+                  			</div>
+                  		</div>
+                  	</div>
+                  </div>
+                </div><!-- end box listing -->
+              <div>
+        	<div>
+          <div>
+        <div>
+    <div>
+</div>

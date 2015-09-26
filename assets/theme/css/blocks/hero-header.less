@@ -1,0 +1,41 @@
+.hero-header{
+  background: url(../images/home-bg.jpg) center no-repeat;
+  .bgcover;
+  overflow: hidden;
+  position: relative;
+  min-height: 540px;
+  &:before{
+    content: "";
+    position: absolute;
+    .gradient(fade(@black, 50%), fade(@black, 0%));
+    height: 100%;
+    top:0;
+    left: 0;
+    z-index: 9;
+    width: 100%;
+  }
+  &:after{
+    content: "";
+    position: absolute;
+    background: url(../images/home-bgblur.jpg) center no-repeat;
+    .bgcover;
+    height: 100%;
+    top:0;
+    left: 0;
+    width: 100%;
+    .transition;
+    .opacity(0);
+  }
+  &:hover{
+    &:after{
+      .opacity(1);
+    }
+  }
+  .inner-hero-header{ 
+    position: absolute;
+    width: 100%;
+    left: 0;
+    z-index: 10;
+    bottom:0
+  }
+}

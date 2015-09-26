@@ -1,0 +1,32 @@
+<section data-ng-controller="ModifyFunnelCtrl">
+	<div style="text-align:center">
+		<h3>Modify Funnel For {{client.name}}</h3>
+	</div>	
+	<hr>
+	<div class="container">
+		<div class="col-sm-8 col-sm-offset-2">
+			<h3>Current Funnel:</h3>
+			<ul class="list-group">
+				<li class="list-group-item" ng-repeat="stage in arrayFunnel">
+					<div class="input-group">{{stage}}
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" ng-click="removeItem(stage)">
+								<span class="glyphicon glyphicon-remove" style="color:red"></span>
+							</button>
+						</span>
+					</div>
+				</li>
+				<li class="list-group-item">
+					<div class="input-group">
+						<input type="text" class="form-control" ng-model="newItemName" placeholder="add item...">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" ng-click="addNewItem()">
+								<span class="glyphicon glyphicon-plus" style="color:blue"></span>
+							</button>
+						</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</section>

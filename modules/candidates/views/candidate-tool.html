@@ -1,0 +1,250 @@
+<section data-ng-controller="CandidateCtrl">
+	<Style>
+		body {
+			padding-top: 50px;
+			background-color: #f2f2f2;
+		}
+		.navbar {
+			margin-bottom: 0px;
+		}
+		textarea.form-control {
+			height: 500px;
+		}
+		.container {
+			width: 1170px !important;
+		}
+		.navbar .container {
+			padding-left:30px;
+			padding-right:30px;
+		}
+		.content {
+			margin-top: 20px;
+		}
+		.sub-header {
+			background-color: #ccc;
+			border-radius: 0;
+			border: 0;
+			border-bottom: 1px solid #ccc;
+		}
+		.bordered {
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			padding: 15px;
+			background-color: #fff;
+		}
+		.position-header {
+			height:80.5px;
+			8e c0
+			background: -webkit-linear-gradient(#FCFCFC, #E1E1E1); /* For Safari 5.1 to 6.0 */
+  			background: -o-linear-gradient(#FCFCFC, #E1E1E1); /* For Opera 11.1 to 12.0 */
+  			background: -moz-linear-gradient(#FCFCFC, #E1E1E1); /* For Firefox 3.6 to 15 */
+  			background: linear-gradient(#FCFCFC, #E1E1E1); /* Standard syntax */
+		}
+		.flow-header {
+			background-color: #fAfAfA;
+		}
+		.col-xs-gold3 {
+		  width: 38.1%;
+		}
+		.col-xs-gold9 {
+		  width: 61.9%; 
+		}
+		.col-xs-gold3, .col-xs-gold9 {
+		  float: left;
+		  position: relative;
+		  min-height: 1px;
+		  padding-right: 15px;
+		  padding-left: 15px;
+		}
+		.table-style {
+			display:table; 
+			width:100%;
+		}
+		.table-style li {
+			display:table-cell;
+			float: none;
+			text-align: center;
+			text-transform: uppercase;
+			width:9.1%;
+  		}
+		.table-style li div{
+			position: relative;
+		}
+		.table-style-bordered li {
+			border-left: 1px solid #e1e1e1;
+		}
+		.table-style-bordered li:last-child {
+			border-right: 1px solid #e1e1e1;
+		}
+		.table-style li a {
+  			display: block;
+		}
+		.table-style li:hover {
+  			background-color: #f5f5f5;
+		}
+		.table-style li:hover a {
+  			text-decoration: none;
+		}
+		.table-style li a span {
+			overflow: hidden;
+  			white-space: nowrap;
+  			text-overflow: ellipsis;
+  			display: block;
+  			max-width: 75px;
+  			margin: 0 auto;
+  			color: #666666;
+  			font-size: 12px;
+		}
+		.table-style li.active {
+			background-color: #e6e6e6;
+			background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e3e3e3), to(#ececec));
+			background-image: -webkit-linear-gradient(top, #e3e3e3, #ececec);
+			background-image: linear-gradient(to bottom, #e3e3e3,#ececec);
+			background-repeat: repeat-x;
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFE3E3E3', endColorstr='#FFECECEC', GradientType=0);
+			box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+			text-shadow: 0 1px 0 #fff;
+		}
+		.list:last-child {
+			margin-bottom: 0px;
+		}
+		.list {
+			position: relative;
+			padding-top: 1px;
+			padding-bottom: 1px;
+			padding-left: 0;
+			list-style: none;
+		}
+		.candidate {
+			list-style-type: none;
+			border-color: #ddd;
+			background-color: #fff;
+			color: #444;
+			position: relative;
+			z-index: 2;
+			display: block;
+			padding: 16px;
+			border-width: 1px;
+			border-style: solid;
+			font-size: 16px;
+		}
+		.candidate:first-child {
+			border-top: 1px solid transparent;
+		}
+		.tabs {
+			padding-left: 0;
+			list-style: none;
+			margin-bottom: -1px;
+		}
+		.tabs>li>a {
+			color: #555;
+			cursor: default;
+			background-color: #f8f8f8;
+			border: 1px solid #cfcfcf;
+			line-height: 1.42857143;
+			border-right: 1px solid transparent;
+			position: relative;
+			display: block;
+			padding: 10px 15px;
+			text-transform: uppercase;
+		}
+		.tabs>li.active>a {
+			background-color: #fff;
+			border-bottom-color: transparent;
+		}
+		.tabs>li:first-child>a {
+			border-top-left-radius: 4px;
+
+		}
+		.tabs>li:last-child>a {
+			border-right: 1px solid #cfcfcf;
+			border-top-right-radius: 4px;
+		}
+		ul>.funnel-tabs{
+			width:14%;
+		}
+		.funnelActive{
+			font-weight:bold;
+		}
+	</style>
+
+	<!-- HTML5 Shim -->
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+</head>
+
+
+<body>
+	<header class="navbar navbar-fixed-top navbar-inverse">
+		<section class="container">
+		<a class="navbar-brand" href="{{organisation._id ? '#!/app/organisation/' + organisation._id : '/app'}}" ng-click="activeJob = null;"><span class="ion-ios-pulse-strong" style="color:orange"></span>{{organisation.name || 'Recruiter'}}</a>
+		<ul class="nav navbar-nav" ng-show="authentication.user">
+			<li class="dropdown">
+				<a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{activeClient.name || 'Select Client'}} <span class="caret"></span></a>
+				<ul class="dropdown-menu" role="menu">
+					<li><a ng-repeat="client in clients" href="#!/app/clients/{{client._id}}" ng-click="jobListView = true; selectClient(client)">
+						{{client.name}}
+					</a></li>
+					<li class="divider"></li>
+					<li>	
+						<a href="/#!/app/client/add"  ng-click="jobListView = false">Add Client</a>
+					</li>
+				</ul>
+			</li>
+			<li class="dropdown" ng-show="activeClient">
+				<a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{'Select Job for ' + activeClient.name}} <span class="caret"></span></a>
+				<ul class="dropdown-menu" role="menu">
+					<li><a ng-repeat="job in jobs" href="#!/app/clients/{{activeClient._id}}/jobs/{{job._id}}" ng-click="selectJob(job)">
+						{{job.title}}
+					</a></li>
+					<li class="divider"></li>
+					<li>
+						<a href="#!/app/add/job/{{activeClient._id}}" ng-click="jobListView=false;">Add Job</a>
+					</li>
+				</ul>
+
+			</li>
+		</ul>
+		<ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user">
+			<!--
+			<li ui-route="/signup" ng-class="{active: $uiRoute}">
+				<a href="/#!/signup">Sign Up</a>
+			</li>
+			-->
+			<li class="divider-vertical"></li>
+			<li ui-route="/signin" ng-class="{active: $uiRoute}">
+				<a href="/#!/signin">Sign In</a>
+			</li>
+		</ul>
+		<ul class="nav navbar-nav navbar-right" data-ng-show="authentication.user">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					<span data-ng-bind="authentication.user.displayName"></span> <b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li>
+						<a href="/#!/settings/profile">Edit Profile</a>
+					</li>
+					<li data-ng-show="authentication.user.provider === 'local'">
+						<a href="/#!/settings/password">Change Password</a>
+					</li>
+					<li data-ng-show="authentication.user.role === 'recruiterAdmin'">
+						<a href="/#!/app/users/{{authentication.user.organisation}}">Invite Users</a>
+					</li>
+					<li data-ng-show="authentication.user.role === 'clientAdmin'">
+						<a href="/#!/app/users/{{authentication.user.client}}">Invite Users</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+						<a href="/auth/signout">Signout</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		</section>
+	</header>	
+	<section data-ui-view ng-show="authentication.user"></section>
+</section>
+
+

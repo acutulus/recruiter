@@ -1,0 +1,67 @@
+<section data-ng-controller="AddClientCtrl">
+	<div style="text-align:center">
+		<h3>Add New Client</h3>
+	</div>
+
+	<div class="col-xs-offset-3 col-xs-6">
+		<form name="userForm" data-ng-submit="newClient()" class="signin form-horizontal" novalidate autocomplete="off">
+			<fieldset>
+				<div class="form-group">
+					<label for="name">Name</label>
+					<input type="text" required id="name" name="name" class="form-control" data-ng-model="client.name" placeholder="name">
+				</div>
+				<div class="form-group">
+					<label>Funnel:</label>
+					<ul class="list-group">
+						<li class="list-group-item" >
+							<div class="input-group" ng-repeat="stage in client.funnel track by $index">
+								<input type="text" class="form-control" ng-model="client.funnel[$index]" placeholder="add item...">
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button" ng-click="addItem()">
+										<span class="glyphicon glyphicon-plus" style="color:blue"></span>
+									</button>
+									<button class="btn btn-default" type="button" ng-click="removeItem($index)">
+										<span class="glyphicon glyphicon-remove" style="color:red"></span>
+									</button>
+								</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+			<div class="radio" style="margin-bottom:15px;">
+			  <label>
+			    <input type="radio" ng-model="client.serviceUsed" name="clientType" value="workable">
+			    Workable
+			  </label>	
+				<label> 
+					<input type="radio" ng-model="client.serviceUsed" name="clientType" value="applicantPro">
+					Applicant Pro
+				</label>
+			</div>
+			<!--Workable Specific Stuff -->
+			<div ng-show="client.serviceUsed === 'workable'">
+				<div class="form-group">
+					<label for="workableName">Name used in Workable</label>
+					<input type="text" required id="workableName" name="workableName" class="form-control"
+					data-ng-model="client.workableName" placeholder="workable name">
+				</div>
+				<div class="form-group">
+					<label for="accessToken">Workable Access Token</label>
+					<input type="text" require id="accessToken" name="accessToken" class="form-control" data-ng-model="client.accessToken" placeholder="name">
+				</div>
+			</div>
+
+			<div ng-show="client.serviceUsed === 'applicantPro'">
+			</div>
+
+			<div class="text-center" style="margin-bottom:20px;margin-top:30px;">
+					<button type="submit" class="btn btn-large btn-primary">Add Client</button>
+				</div>
+				<div class="alert alert-success" ng-show="clientAdded === 'success'">New Client Created </div>
+				<div class="alert alert-warning" ng-show="clientAdded === 'field'">Missing Needed Fields</div>
+				<div class="alert alert-danger" ng-show="clientAdded === 'server'">You are not qualified to do this</div>
+			</div>
+		</fieldset>
+	</div>
+</section>

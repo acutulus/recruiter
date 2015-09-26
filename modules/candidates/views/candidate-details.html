@@ -1,0 +1,164 @@
+<section data-ng-controller="CandidateDetailsCtrl">
+	<style>
+		h4{
+			color:rgba(100,100,100,.9);
+		}
+	</style>
+	<div class="col-xs-gold9">
+		<div class="bordered">
+			<span style="color:red" ng-show="candidate.disqualified">
+			Disqualified</span>
+			<span>Current Stage : {{candidate.stage}}</span>
+			<span style="float:right">Submitted: {{candidate.created_at}}</span>
+			<div class="btn-group" style="margin-left:60%;margin-bottom:10px;">
+				<li type="button" class="btn btn-default dropdown">
+					<span class="dropdown-toggle" data-toggle="dropdown">
+							Move <span class="caret"></span></span>
+						<ul class="dropdown-menu">
+							<li ng-repeat="stage in stages">	
+								<a href=""  ng-click="move(stage);">{{stage}}</a>
+							</li>
+						</ul>
+				</li>				
+				<!--<button type="button" class="btn btn-default" ng-click="advance()">Advance</button>-->
+				<button type="button" class="btn btn-default" ng-click="disqualify();" ng-show="!candidate.disqualified">Disqualify</button>
+				<button type="button" class="btn btn-default" ng-click="requalify();" ng-show="candidate.disqualified">Requalify</button>
+				<button class="btn btn-default dropdown">
+					<span class="dropdown-toggle" data-toggle="dropdown">Share<span class="caret"></span></span>
+					<ul class="dropdown-menu">
+						<li>
+							<a href="" ng-click="shareCandidate()">Get URL</a>
+						</li>
+						<li>
+							<a href="" ng-click="testEmail = !testEmail">Email</a>
+
+						</li>
+					</ul>
+				</button>
+
+				<div style="position:absolute;z-index:100;min-width:250px;padding:20px;margin-left:15%;margin-top:40px;" class="panel panel-default" ng-show="eventLog">
+					Add a reason for this?<br>
+					<div ng-show="describeEvent">
+						<textarea ng-model="eventDescription"></textarea><br>
+						<button type="button" class="btn btn-success" ng-click="logEvents()">Done</button>
+					</div><br>
+					<button type="button" class="btn btn-success" ng-click="describeEvent=true;">Yep</button>
+					<button type="button" class="btn btn-warning" ng-click="logEvents()">Nope</button>
+				</div>
+			</div>
+			<!-- TEST ROUTES DONT WORK 
+			<a href="candidates/swigTest/{{candidate._id}}">Test Swig/PDF emails </a>
+			<a href="candidates/accessTokenTest/{{candidate._id}}/{{clientId}}" ng-show="candidate.resume_url !== ''">Test accessToken Resume emails</a>
+			-->
+			<!-- TEST EMAIL FOR A CANDIDATE -->
+			<div ng-show="testEmail">
+				<button type="button" class="btn btn-default btn-small" ng-click="testNewCandidateEmail()">Test New Candidate Email</button>
+				<input type="email" ng-model="testEmailAddress"></input>
+			</div>
+			<h2>{{candidate.name}}</h2>
+			<h4>{{candidate.headline}}</h4>
+			<h4>{{candidate.email}} {{candidate.phone}}
+				<div ng-show="candidate.city || candidate.state">
+					<br> {{candidate.city}}{{candidate.state}}
+				</div>
+			</h4>
+			<hr>
+			<ul class="list-group">
+				<li class="list-group-item">
+					<h4 style="display:inline-block;">Candidate Data</h4><a href=""  style="float:right;">
+						<span ng-show="!candidate.showData" style="color:grey" ng-click="candidate.showData=!candidate.showData">show</span>	
+						<span ng-show="candidate.showData" style="float:right;color:grey" ng-click="candidate.showData=!candidate.showData">hide</span>
+					</a>	
+					<div ng-show="candidate.showData">
+						<div ng-show="candidate.workableStage">
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<h4>Candidate Summary:</h4>
+									<hr>
+									<p>{{candidate.summary || 'Not Provided'}}
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<h4>Work Experience</h4>
+									<hr>
+									<div ng-repeat="work in candidate.experience_entries">
+										<p><strong>{{work.company}} : ({{work.start_date}} - {{work.end_date || 'current'}})<br>
+											{{work.title}}</strong></p>
+										<p>{{work.summary}}</p>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<h4>Education</h4>
+									<hr>
+									<div ng-repeat="school in candidate.education_entries">
+										<p><strong>{{school.school}} : ({{school.start_date}} - {{school.end_date || 'current'}})</strong></p>
+										<p>Field: {{school.field_of_study}}</p>
+										<p>Degree: {{school.degree || 'Not Completed'}}</p>
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<h4>Skills:</h4>
+									<div ng-repeat="skill in candidate.skills">
+										{{skill.name}}
+									</div>
+								</div>
+							</div>
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<h4>Cover Letter:</h4>
+									<p>{{candidate.cover_letter || 'None Provided'}}</p>
+									<hr>		
+									<h4>Resume:</h4>
+									<a ng-show="candidate.resume_url">{{candidate.resume_url}}</a>
+									<p ng-show="!candidate.resume_url">None Provided</p>
+									<h4>Resume PDF:</h4>
+									<a ng-show="candidate.resume_file" href="/candidates/{{candidate._id}}/resume.pdf">View Resume</a>
+									<p ng-show="!candidate.resume_file">No PDF found, if you can see url but not pdf we dun goofed</p>
+									<br>
+									<a ng-show="candidate.resume_file" href="/candidates/{{candidate._id}}/resume" >Download Resume</a>
+								</div>
+							</div>
+						</div>
+						<div ng-show="candidate.resume_text">
+							<h4>Resume Text</h4>
+							<pre>{{candidate.resume_text}}</pre>
+							<hr>
+						</div>
+						<div ng-show="candidate.resume_uploaded_text">
+							<h4>Uploaded Resume Text:</h4>
+							<pre>{{candidate.resume_uploaded_text}}</pre>
+						</div>
+					</div>
+				</li>
+			<li class="list-group-item">
+				<h4 style="display:inline-block;">Candidate Timeline</h4>
+				<a href="" style="float:right;">
+					<span ng-show="!candidate.showEvents" style="color:grey" ng-click="candidate.showEvents=!candidate.showEvents">show</span>	
+					<span ng-show="candidate.showEvents" style="float:right;color:grey" ng-click="candidate.showEvents=!candidate.showEvents">hide</span>
+				</a>			
+				<div ng-show="candidate.showEvents">
+					<ul class="list-group">
+						<li class="list-group-item" ng-repeat="event in events">{{event.name}}	
+							<a href=""><span ng-show="event.show" style="float:right;color:grey" ng-click="event.show=!event.show">&nbsp&nbsphide</span></a>
+							<a href=""><span ng-show="!event.show" style="float:right;color:grey" ng-click="event.show=!event.show">	&nbsp&nbspdetails</span></a>
+							<span style="float:right;">&nbsp&nbsp{{event.time}} </span>	
+							<span style="float:right;color:grey;">{{userComments[event.user]}}</span>
+
+		
+
+							<div ng-show="event.show">
+								<a href="" style="color:grey;float:right;" ng-show="user._id === event.user" ng-click="editEvent(event)">edit</a>
+								<p>Reason: {{event.description || 'none given'}}</p>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</div>
+</section>

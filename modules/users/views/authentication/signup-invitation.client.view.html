@@ -1,0 +1,65 @@
+<section class="row" data-ng-controller="InvitationCtrl" ng-cloak>
+		<div class="col-xs-8 col-xs-offset-2" ng-show="requestValid && !signedIn">
+			<form name="userForm" data-ng-submit="submit()" class="signin form-horizontal" novalidate autocomplete="off" ng-show="requestValid">
+				<h3>You have been invited to sign up for an account!</h3>
+				<fieldset>
+					<div class="form-group">
+						<label for="firstName">First Name</label>
+						<input type="text" required id="firstName" name="firstName" class="form-control" data-ng-model="userData.firstName" placeholder="First Name">
+					</div>
+					<div class="form-group">
+						<label for="lastName">Last Name</label>
+						<input type="text" id="lastName" name="lastName" class="form-control" data-ng-model="userData.lastName" placeholder="Last Name" required>
+					</div>
+					<div class="form-group">
+						<label for="email">Email</label>
+						<input type="email" id="email" name="email" class="form-control" data-ng-model="userData.email" required>
+					</div>
+					<div class="form-group">
+						<label for="username">Username</label>
+						<input type="text" id="username" name="username" class="form-control" data-ng-model="userData.username" placeholder="Username" required>
+					</div>
+					<div class="form-group">
+						<label for="location">Location</label>
+						<input type="text" id="location" name="location" class="form-control" data-ng-model="userData.location" placeholder="Location" required>
+					</div>
+					<div class="form-group">
+						<label for="tel">Telephone</label>
+						<input type="text" id="tel" name="tel" class="form-control" data-ng-model="userData.tel" placeholder="Telephone" required>
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label>
+						<input type="password" id="password" name="password" class="form-control" data-ng-model="userData.password" placeholder="Password" required>
+					</div>
+					<div class="form-group">
+						<label for="confirm-password">Confirm Password</label>
+						<input type="password" id="confirm-password" name="confirm-password" class="form-control" data-ng-model="confirmPassword" placeholder="Confirm Password" required>
+					</div>
+					<div class="text-center form-group">
+						<button type="submit" class="btn btn-large btn-primary">Sign up</button>
+					</div>
+					<div data-ng-show="error" class="text-center text-danger">
+						<strong data-ng-bind="error"></strong>
+					</div>
+				</fieldset>
+			</form>
+			<div class="alert alert-warning" ng-show="!userForm.$valid">
+				<h3> Please Fill in all Fields</h3>
+			</div>
+			<div class="alert alert-warning" ng-show="(userData.password !== confirmPassword)">
+				<h3>Passwords dont Match</h3>
+			</div>
+
+		</div>
+		<div class="alert alert-warning" ng-show="signedIn">
+			<h3>You are already signed in and cannot register for an account</h3>
+		</div>
+		<div class="alert alert-warning" ng-show="requestInvalid">
+			<h3>Invalid Request</h3>
+			<p>This request is expired or invalid. Contact the person who invited you to receive another</p>
+		</div>
+	</div>
+	<div class="alert alert-success" ng-show="requestSuccess">
+		<h3>Account Created Successfully, You are ready to Log In</h3>
+	</div>
+</section>

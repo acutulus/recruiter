@@ -1,0 +1,40 @@
+<div class="modal-header">
+	<h4>Send an Email invite to a new user.</h4>
+</div>
+<div class="modal-body">
+	<fieldset>
+		<div ng-show="showRoles">
+			<div ng-show="user.role === 'clientAdmin' || user.role === 'recruiterAdmin'">
+				<label>Select Invite Type:</label>	
+				<input type="radio" name="user-type" ng-model="newUser.role" style="margin-left:150px;margin-right:4px;" value="clientUser"> Client User</input>
+				<input type="radio" name="user-type" ng-model="newUser.role" style="margin-left:20px;margin-right:4px;" value="clientAdmin"> Client Admin</input>
+			</div>
+			<div ng-show="user.role === 'recruiterAdmin'">
+				<input type="radio" name="user-type" ng-model="newUser.role" style="margin-left:150px;margin-right:4px;" value="recruiterUser" ng-click="selectOrganisation()"> Organisation User</input>
+				<input type="radio" name="user-type" ng-model="newUser.role" style="margin-left:20px;margin-right:4px;" value="recruiterAdmin" ng-click="selectOrganisation()"> Organisation Admin</input>
+			</div>
+		</div>
+			<div style="margin-top:20px;margin-bottom:20px;">
+				<label>Email:</label>
+				<input type="text" class="form-control" ng-model="newUser.email" ng-keydown="emailFail = false"></input>
+			</div>
+		<div ng-show="showRoles">
+			<div style="margin-top:20px;margin-bottom:20px;" ng-show="newUser.role === 'clientUser' || newUser.role === 'clientAdmin'">
+				<div class="dropdown">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{selectedNames.client || 'Select Client'}}
+					<span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a ng-repeat="client in clients" href="" ng-click="selectClient(client)">{{client.name}}
+						</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	<div class="alert alert-success" ng-show="emailSent">Email Sent!</div>
+	<div class="alert alert-warning" ng-show="emailFail">Form Error</div>
+	<div class="col-xs-offset-8">
+		<a class="btn btn-success" ng-click="sendEmail()">Send Invite</a>
+		<a class="btn btn-warning" ng-click="close()">Close</a>
+	</div>	
+</div>

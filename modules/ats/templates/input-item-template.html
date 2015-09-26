@@ -1,0 +1,414 @@
+
+
+<section>
+	<div style="margin-bottom:30px;">
+		<div ng-if="kepsFramework === 'bootstrap'">
+			<label >{{kepsType.display.label || kepsName}}:</label>
+		</div>
+		<span ng-show="typeError" style="color:red">Did not find a useable input type, defaulting to string</span>
+		<span class="errorMsg" style="color:red" ng-show="showValidationError">{{kepsType.errorMsg  || 'error'}}</span>
+
+		<!-- Start listing input types -->
+		<div ng-if="kepsType.type" >
+			<div ng-if="kepsType.type.indexOf(':') > -1">
+			    <input type="text" list="{{kepsType.type + 'options'}}" ng-model="data.value" ng-blur="setReferenceData()"></input>
+			    <datalist id="{{kepsType.type + 'options'}}">
+			    	<option ng-repeat="option in data.options" value="{{option.value}}" 
+			    	></option>
+			    </datalist>
+			</div>
+			<div ng-if="kepsType.type === 'string'">
+				<div ng-if="kepsFramework === 'materialize'">
+					<div class="row" style="margin-right:0px;margin-left:0px;">
+						<div class="input-field">
+							<input type="text" ng-required="kepsType.required" ng-model="data.value" class="validate" placeholder="{{kepsType.display.placeholder}}" ng-keyup="validation()"></input>
+							<label ng-class="{active: kepsModel}">{{kepsType.display.label || kepsName}}:</label>
+						</div>
+					</div>
+				</div>
+				<div ng-if="kepsFramework === 'bootstrap'">
+					<input type="text" ng-required="kepsType.required" ng-model="data.value" class="form-control" placeholder="{{kepsType.display.placeholder}}" ng-keydown="validation()"></input>
+				</div>
+			</div>
+			<div ng-if="kepsType.type === 'number'">
+				<div ng-if="kepsFramework === 'materialize'">
+					<div class="row" style="margin-right:0px;margin-left:0px;">
+						<div class="input-field">
+							<input type="number" ng-required="kepsType.required" ng-model="data.value" ng-keyup="validation()"></input>
+							<label ng-class="{active: kepsModel}">{{kepsType.display.label || kepsName}}:</label>
+						</div>						
+					</div>
+				</div>
+				<div ng-if="kepsFramework === 'bootstrap'">
+					<input type="number" ng-required="kepsType.required" ng-model="data.value" class="form-control" ng-keyup="validation()"></input>
+				</div>
+			</div>
+			<div ng-if="kepsType.type === 'boolean'" >
+				<div ng-if="kepsFramework === 'materialize'">
+					<div class="row" style="margin-right:0px;margin-left:0px;">
+						<label>{{kepsType.display.label || kepsName}}:</label><br>
+						<div class="col s3">
+							<label class="btn waves-effect waves-light blue" style="text-align:center;margin-right:20px;"><input  type="radio" ng-required="kepsType.required" ng-model="data.value" ng-value="true">True&nbsp</label><br>
+							<label class="btn waves-effect waves-light red" style="text-align:center;margin-top:10px;"><input  type="radio" ng-required="kepsType.required" ng-model="data.value" ng-value="false">False</label>
+						</div>
+						<div class="col s6">
+							<h6>Current Value: {{data.value}}</h6>
+						</div>
+					</div>
+				</div>
+				<div ng-if="kepsFramework === 'bootstrap'">
+					<div class="radio-inline">
+					  <label><input type="radio" ng-required="kepsType.required" ng-model="data.value" ng-value="true">True</label>
+					</div>
+					<div class="radio-inline">
+					  <label><input type="radio" ng-required="kepsType.required" ng-model="data.value" ng-value="false">False</label>
+					</div>	
+				</div>
+			</div>
+			<div ng-if="kepsType.type === 'file'">
+				<div ng-if="kepsFramework === 'materialize'">
+					<div class="row" style="margin-right:0px;margin-left:0px;">
+						<div class="col s6">
+							<label>{{kepsType.display.label || kepsName}}:</label>
+							<br>
+							<label>Import file from computer </label>
+							<input type="file" ng-required="kepsType.required" style="margin:15px;" onchange="angular.element(this).scope().fileChanged(event)"></input>
+						</div>
+						<div class="col s6">
+							<ul style="list-style:none;">
+								<li><strong>File Info</strong></li>
+								<li>FileName: {{kepsModel.fileName}}</li>
+								<li>Size: {{kepsModel.fileSize}}</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div ng-if="kepsFramework === 'bootstrap'">
+					<div class="row">
+						<div class="form-group col-xs-6">
+							<label>Import file from computer</label>
+							<input type="file" ng-required="kepsType.required" style="margin:15px;" onchange="angular.element(this).scope().fileChanged(event)"></input>
+						</div>
+						<div class="col-xs-6">
+							<ul style="list-style:none;">
+								<li><strong>File Info</strong></li>
+								<li>FileName: {{kepsModel.fileName}}</li>
+								<li>Size: {{kepsModel.fileSize}}</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-if="kepsType.type === 'html'">
+				<text-angular ng-model="data.value" ng-required="kepsType.required" placeholder="{{kepsType.display.placeholder}}"></text-angular>
+			</div>
+			<div ng-if="kepsType.type === 'datetime'">
+				<div ng-if="kepsFramework === 'materialize'">
+					<label>{{kepsType.display.label || kepsName}}:</label>
+					<div class="row" style="margin-right:0px;margin-left:0px;">
+						<div class="col s6">
+							<input type="date" ng-required="kepsType.required" class="form-control"  ng-model="data.date" ng-blur="makeTime()" placeholder="yyyy-MM-dd"></input>
+						</div>
+						<div class="col s6">
+							<input type="time" ng-required="kepsType.required" class="form-control"  ng-model="data.time" ng-blur="makeTime()"></input>
+						</div>
+					</div>
+				</div>
+				<div ng-if="kepsFramework === 'bootstrap'">
+					<div class="row" >
+						<div class="form-group col-xs-6">
+							<input type="date" ng-required="kepsType.required" class="form-control"  ng-model="data.date" ng-blur="makeTime()" placeholder="yyyy-MM-dd"></input>
+						</div>
+						<div class="form-group col-xs-6">
+							<input type="time" ng-required="kepsType.required" class="form-control"  ng-model="data.time" ng-blur="makeTime()"></input>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-if="kepsType.type === 'image'">
+				<div ng-if="kepsFramework === 'materialize'">
+					<label>{{kepsType.display.label || kepsName}}:</label>
+					<div class="row" style="margin-right:0px;margin-left:0px;">
+						<div class="col s4">
+							<div ng-show="!import">
+								<label>Import image from computer:</label>
+								<div class="btn waves-effect waves-light" style="display:inline-block;position:relative;">
+									Upload Image
+									<input type="file" style="position: absolute; top: 0px; width: 107px; left: 0px; height: 35px; opacity: 0;" ng-required="kepsType.required" style="margin:15px;" onchange="angular.element(this).scope().imageFileChanged(event)" accept="image/*"></input>
+								</div>
+								<br>
+								<a href="" ng-click="import = true;image.file = ''">Or... Upload an image from a url.</a>
+							</div>
+							<div ng-show="import">
+								<label>Import image from url:</label>
+								<input type="text" ng-required="kepsType.required" class="form-control" ng-model="data.imageUrldga" placeholder="Enter image url"></input>
+								<button style="margin-top:5px;" class="btn btn-success" ng-click="getImageUrl()">Grab Image</button><br>
+								<a href="" ng-click="import = false;">Or... Upload a file from your computer</a>
+							</div>
+						</div>
+						<div class="col s8" >
+							<canvas id="{{kepsType.randomCanvasId}}"></canvas>
+							<span ng-show="imageData.height && imageData.width">{{imageData.width + ' X ' + imageData.height}}</span>
+						</div>
+					</div>
+				</div>
+				<div ng-if="kepsFramework === 'bootstrap'">
+					<div class="row">
+						<div class="form-group col-xs-5">
+							<div ng-show="!import">
+								<label>Import image from computer:</label>
+								<div class="btn">
+								<input type="file" ng-required="kepsType.required" style="margin:15px;" onchange="angular.element(this).scope().imageFileChanged(event)" accept="image/*"></input>
+								</div>
+								<a href="" ng-click="import = true;image.file = ''">Or... Upload an image from a url.</a>
+							</div>
+							<div ng-show="import">
+								<label>Import image from url:</label>
+								<input type="text" ng-required="kepsType.required" class="form-control" ng-model="data.imageUrl" placeholder="Enter image url"></input>
+								<button style="margin-top:5px;" class="btn btn-success" ng-click="getImageUrl()">Grab Image</button><br>
+								<a href="" ng-click="import = false;">Or... Upload a file from your computer</a>
+							</div>
+						</div>
+						<div class="col-xs-7">
+							<canvas id="{{kepsType.randomCanvasId}}"></canvas>
+							<span ng-show="imageData.height && imageData.width">{{imageData.width + ' X ' + imageData.height}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-if="kepsType.type === 'url'">
+				<div ng-if="kepsFramework === 'materialize'">
+					<div class="row" style="margin-right:0px;margin-left:0px;">
+						<div class="input-field">
+							<input type="url" ng-required="kepsType.required" ng-model="data.value" placeholder="{{kepsType.display.placeholder}}"></input>
+							<label ng-class="{active: kepsModel}">{{kepsType.display.label || kepsName}}:</label>
+						</div>
+					</div>
+				</div>
+				<div ng-if="kepsFramework === 'bootstrap'">
+					<input type="url" ng-required="kepsType.required" ng-model="data.value" class="form-control" placeholder="{{kepsType.display.placeholder}}"></input>
+				</div>
+			</div>
+			<div ng-if="kepsType.type === 'geopoint'">
+				<div ng-if="kepsFramework === 'materialize'">	
+					<label>{{kepsType.display.label || kepsName}}:</label>		
+					<div class="row" style="margin-right:0px;margin-left:0px;">
+						<div class="col s4">
+							<div class="input-field">
+								<input type="number" step="any"  ng-model="data.value.lat" ng-keyup="validation()">
+							    <label>Lat:</label>
+							</div>
+							<div class="input-field">
+								<input type="number" step="any" ng-model="data.value.lng" ng-keyup="validation()">
+						 		<label >Lng:</label>
+							</div>
+							<button class="btn waves-effect waves-light green" style="text-align:center" ng-click="testLatLng()">Test</button>
+						</div>
+						<div class="col s8">
+							<div id="map" style="width:100%;height:200px;"></div>
+						</div>
+					</div>
+				</div>
+				<div ng-if="kepsFramework === 'bootstrap'">
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label class="control-label">Lat:</label>
+							<input type="number" step="any" class="form-control" ng-model="data.value.lat">
+						</div>
+						<div class="form-group">
+							<label class="control-label">Lng:</label>
+							<input type="number" step="any" class="form-control" ng-model="data.value.lng">
+						</div>
+					</div>
+					<div class="col-sm-8">
+						<div id="map" style="width:100%;">
+						</div>		
+					</div>
+				</div>
+			</div>
+			<div ng-if="kepsType.type === 'email'">
+				<span ng-show="!data.emailCorrect && data.value.length > 2" style="color:red;">Not valid email</span><span ng-show="data.emailCorrect" style="color:green;">Valid Email</span>
+				<div ng-if="kepsFramework === 'materialize'">
+					<div class="row" style="margin-right:0px;margin-left:0px;">
+						<div class="input-field">
+							<input type="email" ng-keydown="testEmail()" ng-required="kepsType.required" ng-model="data.value" class="form-control" placeholder="{{kepsType.display.placeholder}}"></input>
+							<label ng-class="{active: kepsModel}">{{kepsType.display.label || kepsName}}:</label>	
+						</div>
+					</div>
+				</div>
+				<div ng-if="kepsFramework === 'bootstrap'">
+					<input type="email" ng-keydown="testEmail()" ng-required="kepsType.required" ng-model="data.value" class="form-control" placeholder="{{kepsType.display.placeholder}}"></input>
+				</div>	
+			</div>
+			<div ng-if="kepsType.type === 'enum'">
+				<div ng-if="kepsFramework === 'materialize'">
+					<label>{{kepsType.display.label || kepsName}}:</label>
+					<div class="row" style="margin-right:0px;margin-left:0px;">
+						<div class="input-field col s12">
+							<select style="display:block;" ng-model="data.value">
+								<option ng-repeat="opt in kepsType.options" value="{{opt}}">{{opt}}</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div ng-if="kepsFramework === 'bootstrap'">
+				</div>
+			</div>
+			<div ng-if="kepsType.type === 'multi'">
+				<div ng-if="kepsFramework === 'materialize'">
+					<div class="row" style="margin-right:0px;margin-left:0px;">
+						<div class="col s12">
+							<label>{{kepsType.display.label || kepsName}}:</label>
+							<div ng-repeat="opt in kepsType.options">
+								<span>
+								<input type="checkbox" ng-click="checkMulti(opt);validation();" style="visibility:visible;left:0px;position:relative;" >
+								{{opt}}
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div ng-if="kepsFramework === 'bootstrap'">
+					<div class="row">
+						<div class="col-xs-12">
+							<div ng-repeat="opt in kepsType.options">
+								<span>
+								<input type="checkbox" ng-click="checkMulti(opt)" style="visibility:visible;left:0px;position:relative;">
+								{{opt}}
+								</span>
+							</div>						
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-if="kepsType.type === 'address'">
+				<div ng-if="kepsFramework === 'materialize'">
+					<div class="row" style="margin-right:0px;margin-left:0px;">
+						<label>{{kepsType.display.label || kepsName}}:</label>	
+						<div class="col s12">
+							<div class="row">
+								<div class="input-field col s6">
+									<input type="text" ng-model="data.address1" ng-keydown="checkAddress()">
+									<label ng-class="{active: kepsModel}">Address Line 1:
+								</div>
+								<div class="input-field col s6">
+									<input type="text" ng-model="data.address2" >
+									<label ng-class="{active: kepsModel}">Address Line 2:
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s6">
+									<input type="text" ng-model="data.city" ng-keydown="checkAddress()">
+									<label ng-class="{active: kepsModel}">City:</label>
+								</div>
+								<div class="input-field col s6">
+									<input type="text" ng-model="data.state" ng-keydown="checkAddress()">
+									<label ng-class="{active: kepsModel}">State/Province/Region:</label>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-field col s6">
+									<input type="text" class="active" ng-model="data.zip">
+									<label ng-class="{active: kepsModel}" id="zipLabel">ZIP/Postal Code:</label>
+								</div>
+								<div class="input-field col s6">
+									<input type="text" class="active" ng-model="data.country">
+									<label ng-class="{active: kepsModel}" id="countryLabel">Country</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s4">
+							<p>Preview:
+							<br>
+							{{data.address1 + ' ' + data.address2}}
+							<br>
+							{{data.city + ', ' + data.state + ' ' + data.zip}}
+							<br>
+							{{data.country}}
+						</div>
+						<div class="col s7">
+							<div id="addressMap" style="height:150px;">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div ng-if="kepsFramework === 'bootstrap'">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Address Line 1:
+										<input type="text" class="form-control" ng-model="data.address1" ng-keydown="checkAddress()">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Address Line 2:
+										<input type="text" class="form-control" ng-model="data.address2" >
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>City:</label>
+										<input type="text" ng-model="data.city" class="form-control" ng-keydown="checkAddress()">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>State/Province/Region:</label>
+									<input type="text" ng-model="data.state" class="form-control" ng-keydown="checkAddress()">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Zip/Postal Code:</label>
+										<input type="text" ng-model="data.zip" class="form-control" ng-keydown="checkAddress()">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Country:</label>
+									<input type="text" ng-model="data.country" class="form-control" ng-keydown="checkAddress()">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s4">
+							<p>Preview:
+							<br>
+							{{data.address1 + ' ' + data.address2}}
+							<br>
+							{{data.city + ', ' + data.state + ' ' + data.zip}}
+							<br>
+							{{data.country}}
+						</div>
+						<div class="col s7">
+							<div id="addressMap" style="height:150px;">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-if="kepsType.type === 'phone'">
+				<!-- Override styling and js for intl-tel-input plugin -->
+				<style> .iti-flag {background-image: url("lib/intl-tel-input/build/img/flags.png");} </style>
+
+								<label>{{kepsType.display.label || kepsName}}:</label>	
+				<input type="tel" id="mobile-number" class="form-control">
+
+				<script>$("#mobile-number").intlTelInput();</script>
+
+			</div>
+			<span class="help-block" ng-if="kepsType.display.instructions">{{kepsType.display.instructions}}</span>
+		</div>
+	</div>
+</section>

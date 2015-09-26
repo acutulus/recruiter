@@ -1,0 +1,39 @@
+<section>
+
+	    <div class="modal-content">
+	      <form>
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	          <h4 class="modal-title" >Welcome to Tavi!</h4>
+	          <h5>All your dreams are about to come true.</h5>
+	        </div>
+	        <div class="modal-body">
+	          <p>The first step is to add your business. Then you will be able to:</p>
+	          <ul>
+	          	<li>Post jobs to the hottest job boards.</li>
+	          	<li>Monitor job applicants with cutting edge analytic tools</li>
+	          	<li>Quickly sort and qualify job candidates</li>
+	          	<li>Add other users to your business</li>
+	          </ul>
+
+	          <div class="form-group">
+	            <label>business name:</label>
+	            <input type="text" class="form-control" ng-model="business">
+	          </div>
+	          <div class="form-group" ng-show="submitting">
+	          	<p>Submitting Business.</p>
+	          </div>
+	          <div class="form-group" ng-show="success">
+	          	<p style="color:green;">Business created!</p>
+	          </div>
+	          <div class="form-group" ng-show="nameError">
+	          	<p><span style="color:red">Organisation name has already been taken.</span> Sorry.</p>
+	          </div>
+	        </div>
+	        <div class="modal-footer">
+	          <button class="btn btn-success btn-theme" ng-click="submit()">Submit</button>
+	        </div>
+	      </form>
+	    </div>
+
+<section>

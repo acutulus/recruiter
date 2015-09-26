@@ -1,0 +1,87 @@
+<section data-ng-controller="AddJobController">
+	<div class="body-content clearfix" >
+        <!-- link top -->
+        <div class="bg-color2 block-section-xs line-bottom">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-6 hidden-xs">
+                <div>Create a new job :</div>
+              </div>
+              <div class="col-sm-6">
+                <div class="text-right"><a href="/management.html#!/homepage">&laquo; Go back to jobs</a></div>
+              </div>
+            </div>
+          </div>
+        </div><!-- end link top -->
+
+        <div class="bg-color2">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-9">
+              	<div class="job-meta">
+              		<div class="col-md-6">
+              			<input-item keps-name="Title" keps-type="string" keps-model="job.title" keps-framework="bootstrap"/>
+              		</div>
+              		<div class="col-md-3 col-md-offset-3">
+              			<input-item keps-name="Code" keps-type="string" keps-model="job.code" keps-framework="bootstrap"/>
+              		</div>
+              		<div class="col-md-12">
+              			<input-item keps-name="Description" keps-type="string" keps-model="job.full_description" keps-framework="bootstrap"/>
+              		</div>
+              		<div class="col-md-12">
+              			<input-item keps-name="Employment Type" keps-type="string" keps-model="job.employment_type" keps-framework="bootstrap"/>
+              		</div>
+              		<div class="col-md-12">
+              			<input-item keps-name="Experience" keps-type="string" keps-model="job.experience" keps-framework="bootstrap"/>
+              		</div>
+              		<div class="col-md-12">
+              			<input-item keps-name="Education" keps-type="string" keps-model="job.education" keps-framework="bootstrap"/>
+              		</div>
+              		<div class="col-md-12">
+              			<input-item keps-name="Keywords" keps-type="array" keps-model="job.keywords" keps-framework="bootstrap"/>
+              		</div>
+          		</div>
+              </div>
+              <div class="col-md-3">
+
+                <!-- box affix right -->
+                <div class="block-section " id="affix-box">
+                  <div class="text-right">
+                    <p><a href="#" class="btn btn-theme btn-line dark btn-block-xs">Aplly WIth Linkedin</a></p>
+                    <p><a href="#modal-apply"  data-toggle="modal" class="btn btn-theme btn-t-primary btn-block-xs">Apply This Job</a></p>
+                    <p><a href="#" class="btn btn-theme btn-t-primary btn-block-xs">Login to Save This Job</a></p>
+                    <p><a href="#map-toogle" id="btn-map-toogle" data-toggle="collapse" class="btn btn-theme btn-t-primary btn-block-xs">Ofice Location</a></p>
+                    <p>Share This Job <span class="space-inline-10"></span> :</p>
+                    <p class="share-btns">
+                      <a href="#" class="btn btn-primary"><i class="fa fa-facebook"></i></a>
+                      <a href="#" class="btn btn-info"><i class="fa fa-twitter"></i></a>
+                      <a href="#" class="btn btn-danger"><i class="fa fa-google-plus"></i></a>
+                      <a href="#" class="btn btn-warning"><i class="fa fa-envelope"></i></a>
+                    </p>
+                  </div>
+                </div><!-- box affix right -->
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- block map -->
+        <div class="collapse" id="map-toogle">
+          <div class=" bg-color2" id="map-area">
+            <div class="container">
+              <div class="marker-description">
+                <div class="inner">
+                  <h4 class="no-margin-top">Office Location</h4>
+                  Central Jakarta No 1234, Jakarta, Indonesia
+                </div>
+              </div>
+            </div>
+            <div class="map-area-detail">
+              <!-- change data  lat abd lng here -->
+              <div class="box-map-detail" id="map-detail-job" data-lat="48.856318" data-lng="2.351866"></div>
+            </div>
+          </div>
+        </div><!-- end block map -->
+
+</section>
